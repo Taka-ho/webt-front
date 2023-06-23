@@ -28,15 +28,13 @@ function Exam() {
     return (
       <BrowserRouter>
         <Routes>
-          <Route path='/:id' element={<Editor />} />
+          <Route path='/:id' element={<EditorComponent />} />
         </Routes>
       </BrowserRouter>
     );
-  } else if(isValid === false) {
-    return (
-      <Not_Found />
-    );
-  }else {
+  } else if (isValid === false) {
+    return <Not_Found />;
+  } else {
     return (
       <BrowserRouter>
         <Routes>
@@ -44,6 +42,10 @@ function Exam() {
         </Routes>
       </BrowserRouter>
     );
+  }
+
+  function EditorComponent() {
+    return <Editor fileName={id} />;
   }
 }
 

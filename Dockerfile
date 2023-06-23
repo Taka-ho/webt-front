@@ -13,15 +13,15 @@ RUN npm install -g create-react-app
 RUN mkdir /app
 WORKDIR /app
 # ソースコードをコピー
-COPY monaco-test /app
+COPY front-core /app
 # アプリケーションの依存関係をインストール
-
+VOLUME /app
 RUN npm install
 # ビルド
 RUN npm run build
 
 # ポートの公開
 EXPOSE 3000
-
+EXPOSE 8000
 # サーバーの起動
 CMD ["npm", "start"]
