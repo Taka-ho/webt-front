@@ -3,27 +3,25 @@ import MonacoEditor from 'react-monaco-editor';
 import '../Exam.css';
 
 const Editor = ({ fileName, fileContent }) => {
-  console.log({ fileContent });
-  const [fileContents, setFileContent] = useState('');
+  const [content, setContent] = useState('');
   const [language, setLanguage] = useState('');
 
   useEffect(() => {
     const fetchFileContent = async () => {
-      for (let i = 0; i < fileName.length; i++) {
-        const fileExtension = fileContents[i].split('.').pop();
-        setLanguage(getLanguageMode(fileExtension));
-        setFileContent(fileContent);
-      }
+      const fileExtension = fileName.split('.').pop();
+      setLanguage(getLanguageMode(fileExtension));
+      setContent(fileContent);
     };
-    
-    if (fileContents) {
+
+    if (fileName && fileContent) {
       fetchFileContent();
     }
-  }, [fileContents]);
+  }, [fileName, fileContent]);
 
-  const handleEditorChange = (newValue) => {
+  const handleEditorChange = () => {
     // エディタの値が変更された時の処理
-    console.log(fileContents);
+    fileName = fileContent;
+    setContent(fileContent);
   };
 
   const getLanguageMode = (fileExtension) => {
@@ -40,13 +38,14 @@ const Editor = ({ fileName, fileContent }) => {
         return ''; // 不明な拡張子の場合は空の言語モードを返す
     }
   };
+
   return (
     <div className='editor-space'>
       <MonacoEditor
-        language={language} // 言語モードを明示的に指定する
+        language={language}
         theme="visual studio"
-        value={fileContents}
-        encoding="utf-8" // 文字エンコーディングを指定する
+        value={content}
+        encoding="utf-8"
         onChange={handleEditorChange}
       />
     </div>

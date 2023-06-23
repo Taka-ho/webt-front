@@ -15,38 +15,39 @@ const TabComponent = () => {
 
       const names = [];
       const fileContents = [];
-      zip.forEach(async (relativePath, zipEntry) => {
+      for (const [relativePath, zipEntry] of Object.entries(zip.files)) {
         if (!zipEntry.dir) {
-          const fileName = relativePath;
-          names.push(fileName);
-          const content = await zipEntry.async("text");
-          fileContents.push(content);
+        const fileName = relativePath;
+        names.push(fileName);
+        const content = await zipEntry.async('text');
+        fileContents.push(content);
         }
-      });
-      setContents(fileContents);
+      }
       setFileNames(names);
-      
+      setContents(fileContents);
     };
     download();
   }, []);
-return (
   
-  <div className='tab-space'>
-    <Tabs>
-      <TabList>
-        {fileNames.map((fileName, index) => (
-          <Tab key={fileName}>{fileName}</Tab>
-          
-        ))}
-      </TabList>
-      {
-        contents.map((content, index) => (
-            <Editor fileName={fileNames[index]} fileContent={content} />
-        ))
-      }
-    </Tabs>
-  </div>
-);
+  return (
+    <div className='tab-space'>
+      <Tabs>
+        <TabList>
+          {fileNames.map((fileName, index) => (
+            <Tab key={fileName}>{fileName}</Tab>
+            
+          ))}
+        </TabList>
+        <TabPanel>
+          {
+            fileNames.map((fileName, index) => (
+              <Editor key={fileName} fileName={fileName} fileContent={contents[index]} />
+            ))
+          }
+        </TabPanel>
+      </Tabs>
+    </div>
+  );
 };
 
 export default TabComponent;

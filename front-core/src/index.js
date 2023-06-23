@@ -19,9 +19,7 @@ tab.render(
 
 const editor = ReactDOM.createRoot(document.getElementById('editor'));
 editor.render(
-  <React.StrictMode>
     <Editor />
-  </React.StrictMode>
 );
 
 // If you want to start measuring performance in your app, pass a function
