@@ -15,7 +15,7 @@ WORKDIR /app
 # ソースコードをコピー
 COPY front-core /app
 # アプリケーションの依存関係をインストール
-
+VOLUME /app
 RUN npm install
 # ビルド
 RUN npm run build

@@ -3,18 +3,12 @@ import ReactDOM from 'react-dom/client';
 import Exam from './App';
 import reportWebVitals from './reportWebVitals';
 import Editor from './components/Editor';
-import TabComponent from './components/Tab';
 
 const exam = ReactDOM.createRoot(document.getElementById('exam'));
 exam.render(
   <React.StrictMode>
     <Exam />
   </React.StrictMode>
-);
-
-const tab = ReactDOM.createRoot(document.getElementById('tab'));
-tab.render(
-  <TabComponent />
 );
 
 const editor = ReactDOM.createRoot(document.getElementById('editor'));

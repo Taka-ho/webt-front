@@ -1,54 +1,60 @@
 import React, { useEffect, useState } from 'react';
+import '../Tab.css';
+import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
+import JSZip from 'jszip';
 import MonacoEditor from 'react-monaco-editor';
 import '../Exam.css';
-
-const Editor = ({ fileName, fileContent }) => {
-  const [content, setContent] = useState('');
-  const [language, setLanguage] = useState('');
+const Editor = () => {
+  const [fileNames, setFileNames] = useState([]);
+  const [fileContents, setFileContents] = useState([]);
 
   useEffect(() => {
-    const fetchFileContent = async () => {
-      const fileExtension = fileName.split('.').pop();
-      setLanguage(getLanguageMode(fileExtension));
-      setContent(fileContent);
+    const fetchData = async () => {
+      const response = await fetch('http://localhost:8000/api/exam/workBook');
+      const zipFileData = await response.blob();
+      const zip = await JSZip.loadAsync(zipFileData);
+
+      const names = [];
+      const contents = [];
+
+      await Promise.all(
+        Object.entries(zip.files).map(async ([relativePath, zipEntry]) => {
+          if (!zipEntry.dir) {
+            const fileName = relativePath;
+            const content = await zipEntry.async('text');
+            names.push(fileName);
+            contents.push(content);
+          }
+        })
+      );
+
+      setFileNames(names);
+      setFileContents(contents);
     };
 
-    if (fileName && fileContent) {
-      fetchFileContent();
-    }
-  }, [fileName, fileContent]);
+    fetchData();
+  }, []);
 
-  const handleEditorChange = () => {
-    // エディタの値が変更された時の処理
-    fileName = fileContent;
-    setContent(fileContent);
-  };
+  return (    
+    <Tabs>
+      <TabList>
+        {fileNames.map((fileName) => (
+          <Tab key={fileName}>{fileName}</Tab>
+        ))}
+      </TabList>
+      {fileContents.map((content, index) => (
+        <TabPanel key={fileNames[index]}>
+          <div className='editor-space'>
+            <MonacoEditor
+              language="plaintext"
+              theme="visual studio"
+              value={content}
+            />
+          </div>
 
-  const getLanguageMode = (fileExtension) => {
-    // 拡張子に基づいて言語モードを返す関数
-    switch (fileExtension) {
-      case 'js':
-        return 'javascript';
-      case 'csv':
-        return 'csv';
-      case 'txt':
-        return 'txt';
-      // 他の言語モードも必要に応じて追加する
-      default:
-        return ''; // 不明な拡張子の場合は空の言語モードを返す
-    }
-  };
-
-  return (
-    <div className='editor-space'>
-      <MonacoEditor
-        language={language}
-        theme="visual studio"
-        value={content}
-        encoding="utf-8"
-        onChange={handleEditorChange}
-      />
-    </div>
+        </TabPanel>
+      ))}
+    </Tabs>
   );
 };
 
