@@ -12,16 +12,22 @@ RUN npm install -g create-react-app
 # アプリケーションのディレクトリを作成
 RUN mkdir /app
 WORKDIR /app
+
 # ソースコードをコピー
 COPY front-core /app
+
 # アプリケーションの依存関係をインストール
 VOLUME /app
 RUN npm install
+
 # ビルド
 RUN npm run build
 
 # ポートの公開
 EXPOSE 3000
-EXPOSE 8000
+
+# ファイアウォールの設定
+RUN apk add iptables awall
+
 # サーバーの起動
 CMD ["npm", "start"]

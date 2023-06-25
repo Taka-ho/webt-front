@@ -1,0 +1,24 @@
+.result-container {
+    display: flex;
+    flex-direction: column;
+    height: 50vh;
+}
+
+.code-container {
+    flex: 1;
+}
+
+button {
+    margin-top: 10px;
+}
+
+.button{
+    padding:300px;
+    text-align: right;
+    border: 1px solid #999;
+    padding: 10px;
+    background: #015f16;
+    margin-top:10px;
+    margin-left: 96%;
+    color: white;
+}
