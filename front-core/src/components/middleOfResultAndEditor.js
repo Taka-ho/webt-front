@@ -7,9 +7,7 @@ const MiddleOfResultAndEditor = ({ selectedTab, changedContents }) => {
   useEffect(() => {
     setSelectedFileName(selectedTab);
     setSelectedFileContent(changedContents);
-  }, []);
-
-  return [selectedFileName, selectedFileContent];
+  }, [selectedTab, changedContents]);
 };
 
 export default MiddleOfResultAndEditor;

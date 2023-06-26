@@ -3,18 +3,13 @@ import '../ResultOfCode.css';
 import MiddleOfResultAndEditor from './middleOfResultAndEditor';
 
 const ResultOfCode = () => {
-  const [selectedFileName, setSelectedFileName] = useState([]);
-  const [selectedFileContent, setSelectedFileContent] = useState([]);
-
   const newValues = () => {
-    const [fileName, fileContent] = <MiddleOfResultAndEditor />;
-    setSelectedFileName(fileName);
-    setSelectedFileContent(fileContent);
+    MiddleOfResultAndEditor();
   };
 
   return (
     <div className='result'>
-      <button className='button' onClick={newValues}>実行</button>
+      <button className="button" role="button" onClick={ newValues }>実行</button>
     </div>
   );
 };
