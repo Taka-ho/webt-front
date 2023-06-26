@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
 import JSZip from 'jszip';
 import MonacoEditor from 'react-monaco-editor';
-import ResultOfCode from './ResultOfCode';
+import MiddleOfResultAndEditor from './middleOfResultAndEditor';
 import '../Tab.css';
 import '../Exam.css';
 import '../Editor.css';
@@ -47,9 +47,9 @@ const Editor = () => {
     // ResultOfCodeコンポーネントに選択されたファイル名とコンテンツを渡す
     if (selectedFileName && selectedFileContent) {
       return (
-        <ResultOfCode
-          fileName={selectedFileName}
-          fileContent={selectedFileContent}
+        <MiddleOfResultAndEditor
+          selectedTab={selectedFileName}
+          changedContents={selectedFileContent}
         />
       );
     }

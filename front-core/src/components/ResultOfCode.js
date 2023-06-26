@@ -1,26 +1,20 @@
-import React, { useEffect } from 'react';
+import React, { useState } from 'react';
 import '../ResultOfCode.css';
+import MiddleOfResultAndEditor from './middleOfResultAndEditor';
 
-const CodeResult = ({ fileName, fileContent }) => {
-  useEffect(() => {
-    if (fileName && fileContent) {
-      console.log(fileName);
-      console.log(fileContent);
-    }
-  }, [fileName, fileContent]);
+const ResultOfCode = () => {
+  const [selectedFileName, setSelectedFileName] = useState([]);
+  const [selectedFileContent, setSelectedFileContent] = useState([]);
+
+  const newValues = () => {
+    const [fileName, fileContent] = <MiddleOfResultAndEditor />;
+    setSelectedFileName(fileName);
+    setSelectedFileContent(fileContent);
+  };
 
   return (
-    <div className="result-container">
-      <div className="code-container">{/* 結果を表示する部分のコードを追加してください */}</div>
-    </div>
-  );
-};
-
-const ResultOfCode = ({ fileName, fileContent }) => {
-  return (
-    <div>
-      <CodeResult fileName={fileName} fileContent={fileContent} />
-      <button className='button'>実行</button>
+    <div className='result'>
+      <button className='button' onClick={newValues}>実行</button>
     </div>
   );
 };
