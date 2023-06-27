@@ -1,13 +1,13 @@
 import { useEffect, useState } from "react";
 
-const MiddleOfResultAndEditor = ({ selectedTab, changedContents }) => {
-  const [selectedFileName, setSelectedFileName] = useState("");
-  const [selectedFileContent, setSelectedFileContent] = useState("");
+const MiddleOfResultAndEditor = ({ fileNames, fileContents }) => {
+    const [selectedFileName, setSelectedFileName] = useState("");
+    const [selectedFileContent, setSelectedFileContent] = useState("");
 
-  useEffect(() => {
-    setSelectedFileName(selectedTab);
-    setSelectedFileContent(changedContents);
-  }, [selectedTab, changedContents]);
+    useEffect(() => {
+        setSelectedFileName(fileNames);
+        setSelectedFileContent(fileContents);
+    }, [selectedFileName, selectedFileContent]);
 };
 
 export default MiddleOfResultAndEditor;

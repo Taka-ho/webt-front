@@ -48,8 +48,8 @@ const Editor = () => {
     if (selectedFileName && selectedFileContent) {
       return (
         <MiddleOfResultAndEditor
-          selectedTab={selectedFileName}
-          changedContents={selectedFileContent}
+          fileNames={selectedFileName}
+          fileContents={selectedFileContent}
         />
       );
     }
