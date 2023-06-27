@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import ResultOfCode from "./ResultOfCode";
 
 const MiddleOfResultAndEditor = ({ fileNames, fileContents }) => {
     const [selectedFileName, setSelectedFileName] = useState("");
@@ -6,8 +7,17 @@ const MiddleOfResultAndEditor = ({ fileNames, fileContents }) => {
 
     useEffect(() => {
         setSelectedFileName(fileNames);
+    }, [fileNames]);
+
+    useEffect(() => {
         setSelectedFileContent(fileContents);
-    }, [selectedFileName, selectedFileContent]);
+    }, [fileContents]);
+
+    console.log(selectedFileName);
+
+    return (
+        <ResultOfCode fileName={selectedFileName} fileContent={selectedFileContent} />
+    );
 };
 
 export default MiddleOfResultAndEditor;

@@ -3,14 +3,11 @@ import '../ResultOfCode.css';
 import MiddleOfResultAndEditor from './middleOfResultAndEditor';
 
 const ResultOfCode = ({ fileName, fileContent }) => {
-    const [selectedFileNames, setSelectedFileName] = useState([]);
-    const [selectedFileContents, setSelectedFileContent] = useState([]);
-
-        useEffect(() => {
-        console.log(fileContent);
+    const [selectedFileNames, setSelectedFileName] = useState('');
+    const [selectedFileContents, setSelectedFileContent] = useState('');
+    useEffect(() => {
         setSelectedFileName(fileName);
         setSelectedFileContent(fileContent);
-        console.log(selectedFileNames);
     }, [fileName, fileContent]);
 
     return (
