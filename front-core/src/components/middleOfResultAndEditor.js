@@ -7,17 +7,11 @@ const MiddleOfResultAndEditor = ({ fileNames, fileContents }) => {
 
     useEffect(() => {
         setSelectedFileName(fileNames);
-    }, [fileNames]);
-
-    useEffect(() => {
         setSelectedFileContent(fileContents);
-    }, [fileContents]);
+    }, [fileNames, fileContents]);
 
-    console.log(selectedFileName);
-
-    return (
-        <ResultOfCode fileName={selectedFileName} fileContent={selectedFileContent} />
-    );
+    return <ResultOfCode fileName={selectedFileName} fileContent={selectedFileContent} />
+        
 };
 
 export default MiddleOfResultAndEditor;

@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import '../ResultOfCode.css';
-import MiddleOfResultAndEditor from './middleOfResultAndEditor';
 
 const ResultOfCode = ({ fileName, fileContent }) => {
     const [selectedFileNames, setSelectedFileName] = useState('');

@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
 import JSZip from 'jszip';
 import MonacoEditor from 'react-monaco-editor';
-import MiddleOfResultAndEditor from './middleOfResultAndEditor';
+import MiddleOfResultAndEditor from './MiddleOfResultAndEditor';
 import '../Tab.css';
 import '../Exam.css';
 import '../Editor.css';
@@ -83,6 +83,7 @@ const Editor = () => {
       </Tabs>
       {handleExecuteCode()}
     </div>
+    
   );
 };
 

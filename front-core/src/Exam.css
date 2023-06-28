@@ -7,4 +7,12 @@
   max-width: 1080px;
   height: 100vh;
   width: 90%;
+  margin-right: 0px;
+}
+
+.view-lines monaco-mouse-cursor-text {
+  margin-left: 5%;
+  max-width: 1080px;
+  height: 100vh;
+  width: 90%;
 }
