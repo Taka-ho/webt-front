@@ -1,16 +1,16 @@
 import { useEffect, useState } from "react";
 import ResultOfCode from "./ResultOfCode";
 
-const MiddleOfResultAndEditor = ({ fileNames, fileContents }) => {
+const MiddleOfResultAndEditor = ({ fileNames, fileContents, arrayOfFiles }) => {
     const [selectedFileName, setSelectedFileName] = useState("");
     const [selectedFileContent, setSelectedFileContent] = useState("");
-
+    const [filesInArray, setArrayOfFiles] = useState({});
     useEffect(() => {
         setSelectedFileName(fileNames);
         setSelectedFileContent(fileContents);
+        setArrayOfFiles(arrayOfFiles);
     }, [fileNames, fileContents]);
-
-    return <ResultOfCode fileName={selectedFileName} fileContent={selectedFileContent} />
+    return <ResultOfCode fileName={ selectedFileName } fileContent={ selectedFileContent } arrayOfFiles={ filesInArray } />;
         
 };
 

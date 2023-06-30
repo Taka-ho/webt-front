@@ -50,6 +50,7 @@ const Editor = () => {
         <MiddleOfResultAndEditor
           fileNames={selectedFileName}
           fileContents={selectedFileContent}
+          arrayOfFiles={fileNames}
         />
       );
     }
