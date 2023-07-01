@@ -8,6 +8,7 @@ RUN apk add --no-cache nodejs npm
 
 # Reactの環境構築
 RUN npm install -g create-react-app
+RUN npm install -g express-generator
 
 # アプリケーションのディレクトリを作成
 RUN mkdir /app
@@ -26,6 +27,7 @@ RUN npm run build
 # ポートの公開
 EXPOSE 3000
 
+EXPOSE 3030
 # ファイアウォールの設定
 RUN apk add iptables awall
 

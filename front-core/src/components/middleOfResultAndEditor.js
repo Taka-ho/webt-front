@@ -10,6 +10,8 @@ const MiddleOfResultAndEditor = ({ fileNames, fileContents, arrayOfFiles }) => {
         setSelectedFileContent(fileContents);
         setArrayOfFiles(arrayOfFiles);
     }, [fileNames, fileContents]);
+    
+    console.log(filesInArray);
     return <ResultOfCode fileName={ selectedFileName } fileContent={ selectedFileContent } arrayOfFiles={ filesInArray } />;
         
 };

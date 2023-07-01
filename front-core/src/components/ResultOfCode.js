@@ -9,24 +9,36 @@ const ResultOfCode = ({ fileName, fileContent, arrayOfFiles }) => {
   useEffect(() => {
     setSelectedFileName(fileName);
     setSelectedFileContent(fileContent);
+    setRelation(RelationFileAndCode);
   }, [fileName, fileContent]);
 
   const relationFileAndContent = () => {
-    setRelation({...RelationFileAndCode, [selectedFileName]: selectedFileContent});
+    setRelation({ ...RelationFileAndCode, [arrayOfFiles]: selectedFileContent });
   };
 
   useEffect(() => {
     relationFileAndContent();
   }, [fileName, fileContent]);
 
-  useEffect(() => {
-    console.log(RelationFileAndCode);
+  const submitToAPI = (async () => {
+    const submit = await fetch( 'localhost:3030/aip/submit', {
+        method: 'POST',
+        body: RelationFileAndCode (function(response) {
+            return (
+                <div className='resultOfAPI'>
+                    { response }
+                </div>
+            )
+          }, function(error) {
+            // エラー内容
+          })
+    });
+    
   })
 
   return (
     <div className='result'>
-      <button className="button" role="button">実行</button>
-      {/* 他のコンテンツの表示など */}
+      <button className="button" type="submit" onClick={ submitToAPI }>実行</button>
     </div>
   );
 }
