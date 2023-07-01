@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
 import JSZip from 'jszip';
 import MonacoEditor from 'react-monaco-editor';
-import MiddleOfResultAndEditor from './MiddleOfResultAndEditor';
+import ReturnResult from './ResultOfCode';
 import '../Tab.css';
 import '../Exam.css';
 import '../Editor.css';
@@ -47,18 +47,18 @@ const Editor = () => {
     // ResultOfCodeコンポーネントに選択されたファイル名とコンテンツを渡す
     if (selectedFileName && selectedFileContent) {
       return (
-        <MiddleOfResultAndEditor
-          fileNames={selectedFileName}
-          fileContents={selectedFileContent}
-          arrayOfFiles={fileNames}
+        <ReturnResult
+          fileNames={fileNames}
+          fileContents={fileContents}
+          selectedFileName={selectedFileName}
+          selectedFileContent={selectedFileContent}
         />
       );
     }
   };
-
-  const handleTabSelect = () => {
-    setSelectedFileName(fileNames);
-    setSelectedFileContent(fileContents);
+  const handleTabSelect = (selectedIndex) => {
+    setSelectedFileName(fileNames[selectedIndex]);
+    setSelectedFileContent(fileContents[selectedIndex]);
   };
 
   return (
@@ -66,7 +66,7 @@ const Editor = () => {
       <Tabs onSelect={handleTabSelect}>
         <TabList>
           {fileNames.map((fileName, index) => (
-            <Tab key={fileName[index]}>{fileName}</Tab>
+            <Tab key={fileName}>{fileName}</Tab>
           ))}
         </TabList>
         {fileContents.map((content, index) => (
@@ -84,7 +84,6 @@ const Editor = () => {
       </Tabs>
       {handleExecuteCode()}
     </div>
-    
   );
 };
 

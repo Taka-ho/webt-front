@@ -7,23 +7,17 @@ import ResultOfCode from './components/ResultOfCode';
 
 const exam = ReactDOM.createRoot(document.getElementById('exam'));
 exam.render(
-  <React.StrictMode>
     <Exam />
-  </React.StrictMode>
 );
 
 const editor = ReactDOM.createRoot(document.getElementById('editor'));
 editor.render(
-  <React.StrictMode>
     <Editor />
-  </React.StrictMode>
 );
 
 const resultOfCode = ReactDOM.createRoot(document.getElementById('code-result'));
 resultOfCode.render(
-  <React.StrictMode>
     <ResultOfCode />
-  </React.StrictMode>
 );
 // If you want to start measuring performance in your app, pass a function
 // to log results (for example: reportWebVitals(console.log))

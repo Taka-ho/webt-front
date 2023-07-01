@@ -1,46 +1,32 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import '../ResultOfCode.css';
 
-const ResultOfCode = ({ fileName, fileContent, arrayOfFiles }) => {
-  const [selectedFileName, setSelectedFileName] = useState('');
-  const [selectedFileContent, setSelectedFileContent] = useState('');
-  const [RelationFileAndCode, setRelation] = useState({});
-
+const ReturnResult = ({
+  fileNames,
+  fileContents,
+  selectedFileName,
+  selectedFileContent,
+}) => {
   useEffect(() => {
-    setSelectedFileName(fileName);
-    setSelectedFileContent(fileContent);
-    setRelation(RelationFileAndCode);
-  }, [fileName, fileContent]);
+    console.log('Selected File Name:', selectedFileName);
+    console.log('Selected File Content:', selectedFileContent);
+  }, [selectedFileName, selectedFileContent]);
 
-  const relationFileAndContent = () => {
-    setRelation({ ...RelationFileAndCode, [arrayOfFiles]: selectedFileContent });
-  };
-
-  useEffect(() => {
-    relationFileAndContent();
-  }, [fileName, fileContent]);
-
-  const submitToAPI = (async () => {
-    const submit = await fetch( 'localhost:3030/aip/submit', {
-        method: 'POST',
-        body: RelationFileAndCode (function(response) {
-            return (
-                <div className='resultOfAPI'>
-                    { response }
-                </div>
-            )
-          }, function(error) {
-            // エラー内容
-          })
-    });
-    
-  })
+/*   const handleExecuteCode = () => {
+    // 実行ボタンがクリックされたときの処理
+    // 選択されたファイル名とコンテンツを使用してAPIにデータを送信するなどの操作を行います
+    console.log('実行ボタンがクリックされました');
+    console.log('選択されたファイル名:', selectedFileName);
+    console.log('選択されたファイルコンテンツ:', selectedFileContent);
+  }; */
 
   return (
-    <div className='result'>
-      <button className="button" type="submit" onClick={ submitToAPI }>実行</button>
+    <div className="result">
+      <button className="button" type="submit">
+        実行
+      </button>
     </div>
   );
-}
+};
 
-export default ResultOfCode;
+export default ReturnResult;
