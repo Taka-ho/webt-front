@@ -3,7 +3,6 @@ import '../ResultOfCode.css';
 
 const ReturnResult = memo(({ selectedFileName, selectedFileContent }) => {
   const [FileAndCode, setRelation] = useState({});
-  const [isButtonVisible, setIsButtonVisible] = useState(false);
 
   useEffect(() => {
     relationFileAndContent();
@@ -11,21 +10,17 @@ const ReturnResult = memo(({ selectedFileName, selectedFileContent }) => {
 
   const relationFileAndContent = () => {
     console.log(selectedFileName + ': ' + selectedFileContent);
-    if(selectedFileContent) {
-      setIsButtonVisible(true);
-    }
     setRelation({ ...FileAndCode, [ selectedFileName ]: selectedFileContent });
   };
 
-  const clicked = () => {
-    console.log('ボタンがクリックされました');
-  }
+  console.log('!selectedFileContent: ' + !selectedFileContent);
+
   return (
     <div className="result">
-      {isButtonVisible && (
-        <button className="button" type="submit" disabled={ !selectedFileContent }>
-          実行
-        </button>
+      {selectedFileContent ? (
+        <button className="button">実行する</button>
+      ) : (
+        <button className="button">実行不可</button>
       )}
     </div>
   );
