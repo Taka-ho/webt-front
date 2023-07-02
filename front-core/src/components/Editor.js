@@ -45,11 +45,9 @@ const Editor = () => {
 
   const handleExecuteCode = () => {
     // ResultOfCodeコンポーネントに選択されたファイル名とコンテンツを渡す
-    if (selectedFileName && selectedFileContent) {
+    if (selectedFileName && selectedFileContent && selectedFileName !== null && selectedFileContent !== null) {
       return (
         <ReturnResult
-          fileNames={fileNames}
-          fileContents={fileContents}
           selectedFileName={selectedFileName}
           selectedFileContent={selectedFileContent}
         />

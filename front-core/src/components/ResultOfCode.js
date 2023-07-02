@@ -1,32 +1,29 @@
-import React, { useEffect, useState } from 'react';
+import React, {useEffect, useState, memo } from 'react';
 import '../ResultOfCode.css';
 
-const ReturnResult = ({
-  fileNames,
-  fileContents,
-  selectedFileName,
-  selectedFileContent,
-}) => {
-  useEffect(() => {
-    console.log('Selected File Name:', selectedFileName);
-    console.log('Selected File Content:', selectedFileContent);
-  }, [selectedFileName, selectedFileContent]);
+const ReturnResult = memo(({ selectedFileName, selectedFileContent }) => {
+    const [FileAndCode, setRelation] = useState({});
 
-/*   const handleExecuteCode = () => {
-    // 実行ボタンがクリックされたときの処理
-    // 選択されたファイル名とコンテンツを使用してAPIにデータを送信するなどの操作を行います
-    console.log('実行ボタンがクリックされました');
-    console.log('選択されたファイル名:', selectedFileName);
-    console.log('選択されたファイルコンテンツ:', selectedFileContent);
-  }; */
+    useEffect(() => {
+      console.log('Selected File Name:', selectedFileName);
+      console.log('Selected File Content:', selectedFileContent);
+    }, [selectedFileName, selectedFileContent]);
 
-  return (
+    const relationFileAndContent = () => {
+        setRelation({...FileAndCode, [selectedFileName]: selectedFileContent});
+      };
+
+      useEffect(() => {
+        relationFileAndContent();
+      }, [selectedFileName, selectedFileContent]);
+      console.log(FileAndCode);
+    return (
     <div className="result">
-      <button className="button" type="submit">
+        <button className="button" type="submit">
         実行
-      </button>
+        </button>
     </div>
-  );
-};
+    );
+    });
 
 export default ReturnResult;
