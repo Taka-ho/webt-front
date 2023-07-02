@@ -1,29 +1,34 @@
-import React, {useEffect, useState, memo } from 'react';
+import React, { useEffect, useState, memo } from 'react';
 import '../ResultOfCode.css';
 
 const ReturnResult = memo(({ selectedFileName, selectedFileContent }) => {
-    const [FileAndCode, setRelation] = useState({});
+  const [FileAndCode, setRelation] = useState({});
+  const [isButtonVisible, setIsButtonVisible] = useState(false);
 
-    useEffect(() => {
-      console.log('Selected File Name:', selectedFileName);
-      console.log('Selected File Content:', selectedFileContent);
-    }, [selectedFileName, selectedFileContent]);
+  useEffect(() => {
+    relationFileAndContent();
+  }, [selectedFileName, selectedFileContent]);
 
-    const relationFileAndContent = () => {
-        setRelation({...FileAndCode, [selectedFileName]: selectedFileContent});
-      };
+  const relationFileAndContent = () => {
+    console.log(selectedFileName + ': ' + selectedFileContent);
+    if(selectedFileContent) {
+      setIsButtonVisible(true);
+    }
+    setRelation({ ...FileAndCode, [ selectedFileName ]: selectedFileContent });
+  };
 
-      useEffect(() => {
-        relationFileAndContent();
-      }, [selectedFileName, selectedFileContent]);
-      console.log(FileAndCode);
-    return (
+  const clicked = () => {
+    console.log('ボタンがクリックされました');
+  }
+  return (
     <div className="result">
-        <button className="button" type="submit">
-        実行
+      {isButtonVisible && (
+        <button className="button" type="submit" disabled={ !selectedFileContent }>
+          実行
         </button>
+      )}
     </div>
-    );
-    });
+  );
+});
 
 export default ReturnResult;
