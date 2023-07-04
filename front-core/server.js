@@ -7,7 +7,7 @@ const { exec } = require('child_process');
 
 app.use(bodyParser.json());
 
-app.post('/api/submit', (req, res) => {
+app.post('/api/result', (req, res) => {
   const { directory, code } = req.body;
   
   // コマンドを実行して結果を取得します

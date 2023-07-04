@@ -1,22 +1,13 @@
-import React, { memo, useEffect } from 'react';
+import React, { memo } from 'react';
 import '../ResultOfCode.css';
+import Editor from './Editor';
 
-const ReturnResult = memo(({ selectedFileContent }) => {
-//  console.log(FileAndContent);
-
-const returnButton = (selectedFileContent) => {
-    if(!selectedFileContent){
-      return <button className='button'>実行不可</button>
-    } else {
-      return <button className='button'>実行可能</button>
-    }
+const ReturnResult = () => {
+  const getContent = () => {
+    const editor = Editor();
+    console.log(editor.fileAndCode);
+    return editor.fileAndCode;
   }
-  
-  return (
-    <div className="result">
-      {returnButton(selectedFileContent)}
-    </div>
-  );
-});
+};
 
 export default ReturnResult;
