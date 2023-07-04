@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
 import JSZip from 'jszip';
 import MonacoEditor from 'react-monaco-editor';
-import TakeCodeAndFile from './ResultOfCode';
+import ResultOfCode from './ResultOfCode';
 import '../Tab.css';
 import '../Exam.css';
 import '../Editor.css';
@@ -11,7 +11,7 @@ const Editor = () => {
   const [fileNames, setFileNames] = useState([]);
   const [fileContents, setFileContents] = useState([]);
   const [selectedFileName, setSelectedFileName] = useState('');
-  const [selectedFileContent, setSelectedFileContent] = useState('');
+  const [FileAndCode, setRelation] = useState({});
 
   useEffect(() => {
     const fetchData = async () => {
@@ -27,7 +27,7 @@ const Editor = () => {
             const fileName = relativePath;
             const content = await zipEntry.async('text');
             names.push(fileName);
-            contents.push(content);
+            contents.push({ fileName, content });
           }
         })
       );
@@ -39,24 +39,34 @@ const Editor = () => {
     fetchData();
   }, []);
 
-  const handleOnChange = (newValue) => {
-    setSelectedFileContent(newValue);
+  const handleOnChange = (newValue, index) => {
+    const updatedContents = fileContents.map((item, i) =>
+      i === index ? { ...item, content: newValue } : item
+    );
+    setFileContents(updatedContents);
   };
 
-  const handleExecuteCode = () => {
-    // ResultOfCodeコンポーネントに選択されたファイル名とコンテンツを渡す
-    if (selectedFileName && selectedFileContent) {
-      return (
-        <TakeCodeAndFile
-          selectedFileName={selectedFileName}
-          selectedFileContent={selectedFileContent}
-        />
-      );
-    }
+  const relationFileAndContent = () => {
+    const content = fileContents.find((item) => item.fileName === selectedFileName);
+    setRelation({ ...FileAndCode, [selectedFileName]: content ? content.content : '' });
   };
+
+  useEffect(() => {
+    relationFileAndContent();
+  }, [selectedFileName, fileContents]);
+
+  const handleExecuteCode = () => {
+    const content = fileContents.find((item) => item.fileName === selectedFileName);
+    return (
+      <ResultOfCode
+        selectedFileContent={content ? content.content : ''}
+      />
+    );
+  };
+
   const handleTabSelect = (selectedIndex) => {
-    setSelectedFileName(fileNames[selectedIndex]);
-    setSelectedFileContent(fileContents[selectedIndex]);
+    const fileName = fileNames[selectedIndex];
+    setSelectedFileName(fileName);
   };
 
   return (
@@ -67,14 +77,14 @@ const Editor = () => {
             <Tab key={fileName}>{fileName}</Tab>
           ))}
         </TabList>
-        {fileContents.map((content, index) => (
-          <TabPanel key={fileNames[index]}>
+        {fileContents.map((item, index) => (
+          <TabPanel key={item.fileName} value={selectedFileName}>
             <div className="editor-space">
               <MonacoEditor
                 language="javascript"
                 theme="vs"
-                value={content}
-                onChange={handleOnChange}
+                value={item.content}
+                onChange={(newValue) => handleOnChange(newValue, index)}
               />
             </div>
           </TabPanel>

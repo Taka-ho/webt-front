@@ -1,27 +1,20 @@
-import React, { useEffect, useState, memo } from 'react';
+import React, { memo, useEffect } from 'react';
 import '../ResultOfCode.css';
 
-const ReturnResult = memo(({ selectedFileName, selectedFileContent }) => {
-  const [FileAndCode, setRelation] = useState({});
+const ReturnResult = memo(({ selectedFileContent }) => {
+//  console.log(FileAndContent);
 
-  useEffect(() => {
-    relationFileAndContent();
-  }, [selectedFileName, selectedFileContent]);
-
-  const relationFileAndContent = () => {
-    console.log(selectedFileName + ': ' + selectedFileContent);
-    setRelation({ ...FileAndCode, [ selectedFileName ]: selectedFileContent });
-  };
-
-  console.log('!selectedFileContent: ' + !selectedFileContent);
-
+const returnButton = (selectedFileContent) => {
+    if(!selectedFileContent){
+      return <button className='button'>実行不可</button>
+    } else {
+      return <button className='button'>実行可能</button>
+    }
+  }
+  
   return (
     <div className="result">
-      {selectedFileContent ? (
-        <button className="button">実行する</button>
-      ) : (
-        <button className="button">実行不可</button>
-      )}
+      {returnButton(selectedFileContent)}
     </div>
   );
 });
