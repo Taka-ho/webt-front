@@ -5,6 +5,7 @@ import MonacoEditor from 'react-monaco-editor';
 import '../Tab.css';
 import '../Exam.css';
 import '../Editor.css';
+import ReturnResult from './ResultOfCode';
 
 const Editor = ({ setFileAndCode }) => {
   const [fileNames, setFileNames] = useState([]);
@@ -44,13 +45,14 @@ const Editor = ({ setFileAndCode }) => {
     setFileContents(updatedContents);
   };
 
-  const handleExecuteCode = () => {
+  const handleExecuteCode = async () => {
     const content = fileContents.find((item) => item.fileName === selectedFileName);
     setFileAndCode(content ? content.content : '');
-    const formResponse = fetch("localhost:3030/api/returnResult", {
+    const formResponse = await fetch("localhost:3030/api/returnResult", {
       method: "POST",
       body: content
     });
+    <ReturnResult formResponse={ formResponse } />
   };
 
   const handleTabSelect = (selectedIndex) => {

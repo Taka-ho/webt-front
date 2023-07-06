@@ -15,21 +15,14 @@ RUN mkdir /app
 WORKDIR /app
 
 # ソースコードをコピー
-COPY front-core /app
+COPY webt-front /app
+COPY webt-backend /app
 
 # アプリケーションの依存関係をインストール
-VOLUME /app
 RUN npm install
-
-# ビルド
-RUN npm run build
 
 # ポートの公開
 EXPOSE 3000
-
 EXPOSE 3030
-# ファイアウォールの設定
-RUN apk add iptables awall
-
 # サーバーの起動
 CMD ["npm", "start"]
