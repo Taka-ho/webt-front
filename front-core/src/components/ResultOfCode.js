@@ -1,13 +1,12 @@
-import React, { memo } from 'react';
-import '../ResultOfCode.css';
-import Editor from './Editor';
+import React, { useEffect, memo, useCallback } from 'react';
+import '../ReturnResult.css';
 
-const ReturnResult = () => {
-  const getContent = () => {
-    const editor = Editor();
-    console.log(editor.fileAndCode);
-    return editor.fileAndCode;
-  }
-};
+const ReturnResult = memo(({ usersCode }) => {
+  return(
+    <div>
+      <h1>テスト用</h1>
+    </div>
+  );
+});
 
 export default ReturnResult;

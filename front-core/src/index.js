@@ -1,6 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
-import Exam from './App';
+import Exam from './Exam';
 import reportWebVitals from './reportWebVitals';
 import Editor from './components/Editor';
 import ResultOfCode from './components/ResultOfCode';
@@ -14,9 +14,7 @@ exam.render(
 
 const editor = ReactDOM.createRoot(document.getElementById('editor'));
 editor.render(
-  <React.StrictMode>
-    <Editor />
-  </React.StrictMode>
+  <Editor />
 );
 
 const resultOfCode = ReactDOM.createRoot(document.getElementById('code-result'));
