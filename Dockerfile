@@ -8,20 +8,21 @@ RUN apk add --no-cache nodejs npm
 
 # Reactの環境構築
 RUN npm install -g create-react-app
+RUN npm install -g express-generator
 
 # アプリケーションのディレクトリを作成
 RUN mkdir /app
 WORKDIR /app
+
 # ソースコードをコピー
-COPY front-core /app
+COPY webt-front /app
+COPY webt-backend /app
+
 # アプリケーションの依存関係をインストール
-VOLUME /app
 RUN npm install
-# ビルド
-RUN npm run build
 
 # ポートの公開
 EXPOSE 3000
-EXPOSE 8000
+EXPOSE 3030
 # サーバーの起動
 CMD ["npm", "start"]

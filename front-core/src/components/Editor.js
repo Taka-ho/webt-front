@@ -1,19 +1,22 @@
 import React, { useEffect, useState } from 'react';
-import '../Tab.css';
 import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
 import JSZip from 'jszip';
 import MonacoEditor from 'react-monaco-editor';
+import '../Tab.css';
 import '../Exam.css';
-const Editor = () => {
+import '../Editor.css';
+import ReturnResult from './ResultOfCode';
+
+const Editor = ({ setFileAndCode }) => {
   const [fileNames, setFileNames] = useState([]);
   const [fileContents, setFileContents] = useState([]);
+  const [selectedFileName, setSelectedFileName] = useState('');
 
   useEffect(() => {
     const fetchData = async () => {
       const response = await fetch('http://localhost:8000/api/exam/workBook');
       const zipFileData = await response.blob();
       const zip = await JSZip.loadAsync(zipFileData);
-
       const names = [];
       const contents = [];
 
@@ -23,7 +26,7 @@ const Editor = () => {
             const fileName = relativePath;
             const content = await zipEntry.async('text');
             names.push(fileName);
-            contents.push(content);
+            contents.push({ fileName, content });
           }
         })
       );
@@ -35,26 +38,55 @@ const Editor = () => {
     fetchData();
   }, []);
 
-  return (    
-    <Tabs>
+  const handleOnChange = (newValue, index) => {
+    const updatedContents = fileContents.map((item, i) =>
+      i === index ? { ...item, content: newValue } : item
+    );
+    setFileContents(updatedContents);
+  };
+
+  const handleExecuteCode = async () => {
+    const content = fileContents.find((item) => item.fileName === selectedFileName);
+    setFileAndCode(content ? content.content : '');
+    const formResponse = await fetch("localhost:3030/api/returnResult", {
+      method: "POST",
+      body: content
+    });
+    <ReturnResult formResponse={ formResponse } />
+  };
+
+  const handleTabSelect = (selectedIndex) => {
+    const fileName = fileNames[selectedIndex];
+    setSelectedFileName(fileName);
+  };
+
+  return (
+  <div>
+    <Tabs onSelect={handleTabSelect}>
       <TabList>
-        {fileNames.map((fileName) => (
+        {fileNames.map((fileName, index) => (
           <Tab key={fileName}>{fileName}</Tab>
         ))}
       </TabList>
-      {fileContents.map((content, index) => (
-        <TabPanel key={fileNames[index]}>
-          <div className='editor-space'>
+      {fileContents.map((item, index) => (
+        <TabPanel key={item.fileName} value={selectedFileName}>
+          <div className="editor-space">
             <MonacoEditor
-              language="plaintext"
-              theme="visual studio"
-              value={content}
-            />
+              language="javascript"
+              theme="vs"
+              value={item.content}
+              onChange={(newValue) => handleOnChange(newValue, index)}
+              />
           </div>
-
         </TabPanel>
-      ))}
-    </Tabs>
+        ))}
+      </Tabs>
+      {
+        <button className="button" type='submit' onClick={handleExecuteCode}>
+          実行する
+        </button>
+      }
+    </div>
   );
 };
 
