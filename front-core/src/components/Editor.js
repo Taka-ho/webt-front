@@ -43,12 +43,16 @@ const Editor = () => {
       i === index ? { ...item, content: newValue } : item
     );
 
-    relationFileAndCode({...fileAndCode, [selectedFileName]: updatedContents});
-    console.log(updatedContents);
+    if(newValue !== null) {
+      relationFileAndCode({...fileAndCode, [selectedFileName]: updatedContents});
+    } else {
+      return null;
+    }   
   };
 
   const handleExecuteCode = () => {
-    <ReturnResult usersCode={ fileAndCode } />
+    console.log(fileAndCode);
+    <ReturnResult fileAndCode={ fileAndCode } />
     
   };
 
