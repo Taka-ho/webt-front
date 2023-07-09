@@ -1,5 +1,5 @@
 import React, { useEffect, memo, useCallback } from 'react';
-import '../ReturnResult.css';
+import '../ResultOfCode.css';
 
 const ReturnResult = memo(({ fileAndCode }) => {
   useEffect(() => {
