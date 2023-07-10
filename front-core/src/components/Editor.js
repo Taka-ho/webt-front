@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, {useCallback, useEffect, useState } from 'react';
 import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
 import JSZip from 'jszip';
 import MonacoEditor from 'react-monaco-editor';
@@ -12,6 +12,8 @@ const Editor = () => {
   const [fileContents, setFileContents] = useState([]);
   const [selectedFileName, setSelectedFileName] = useState('');
   const [fileAndCode, relationFileAndCode] = useState({});
+  const [showResult, setShowResult] = useState(false);
+
   useEffect(() => {
     const fetchData = async () => {
       const response = await fetch('http://localhost:8000/api/exam/workBook');
@@ -44,17 +46,18 @@ const Editor = () => {
     );
 
     if(newValue !== null) {
-      relationFileAndCode({...fileAndCode, [selectedFileName]: updatedContents});
+      relationFileAndCode({...fileAndCode, selectedFileName: updatedContents});
     } else {
       return null;
-    }   
+    }
   };
 
-  const handleExecuteCode = () => {
-    console.log(fileAndCode);
-    <ReturnResult fileAndCode={ fileAndCode } />
-    
-  };
+  const handleExecuteCode = useCallback(() => {
+    setShowResult(true);
+    setTimeout(() => {
+      setShowResult(false);
+    }, 1);
+  }, []);
 
   const handleTabSelect = (selectedIndex) => {
     const fileName = fileNames[selectedIndex];
@@ -85,6 +88,7 @@ const Editor = () => {
       <button className="button" type='submit' onClick={handleExecuteCode}>
         実行する
       </button>
+      {showResult && <ReturnResult fileAndCode={fileAndCode} />}      
     </div>
   );
 };
