@@ -44,10 +44,16 @@ const Editor = () => {
     const updatedContents = fileContents.map((item, i) =>
       i === index ? { ...item, content: newValue } : item
     );
+  
     const fileNamesInArray = updatedContents.map((item) => item.fileName);
     const valueInArray = updatedContents.map((item) => item.content);
     setFileContents(updatedContents);
-    relationFileAndCode({...fileAndCode, [fileNamesInArray] : valueInArray});
+  
+    relationFileAndCode({
+      ...fileAndCode,
+      fileName: fileNamesInArray,
+      content: valueInArray
+    });
   };
 
   const handleExecuteCode = useCallback(() => {
