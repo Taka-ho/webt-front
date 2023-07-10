@@ -45,11 +45,11 @@ const Editor = () => {
       i === index ? { ...item, content: newValue } : item
     );
 
-    if(newValue !== null) {
-      relationFileAndCode({...fileAndCode, selectedFileName: updatedContents});
-    } else {
-      return null;
-    }
+    const fileNamesInArray = updatedContents.map((item) => item.fileName);
+    const valueInArray = updatedContents.map((item) => item.content);
+    setFileContents(updatedContents);
+
+    relationFileAndCode({...fileAndCode, fileName:[fileNamesInArray], content:[valueInArray]});
   };
 
   const handleExecuteCode = useCallback(() => {
