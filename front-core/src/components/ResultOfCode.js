@@ -1,17 +1,12 @@
-import React, { useEffect, memo } from 'react';
+import React, { useState, useEffect, memo } from 'react';
 import '../ResultOfCode.css';
 
 const ReturnResult = memo(({ fileAndCode }) => {
-  if (!fileAndCode || Object.keys(fileAndCode).length === 0) {
-    console.log('空です。');
-  } else {
-    console.log(fileAndCode);
-  }
-  return (
-    <div>
-      {/* コンポーネントの表示内容 */}
-    </div>
-  );
+return (
+  <div>
+    <h1>{fileAndCode && Object.keys(fileAndCode).length !== 0 ? JSON.stringify(fileAndCode) : '空です'}</h1>
+  </div>
+);
 });
 
 export default ReturnResult;
