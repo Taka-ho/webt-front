@@ -11,7 +11,7 @@ const Editor = () => {
   const [fileNames, setFileNames] = useState([]);
   const [fileContents, setFileContents] = useState([]);
   const [selectedFileName, setSelectedFileName] = useState('');
-  const [fileAndCode, relationFileAndCode] = useState({});
+  const [answerOfUser, relationFileAndCode] = useState([]);
   const [showResult, setShowResult] = useState(false);
 
   useEffect(() => {
@@ -50,7 +50,7 @@ const Editor = () => {
     setFileContents(updatedContents);
   
     relationFileAndCode({
-      ...fileAndCode,
+      ...answerOfUser,
       fileName: fileNamesInArray,
       content: valueInArray
     });
@@ -92,7 +92,7 @@ const Editor = () => {
       <button className="button" type='submit' onClick={handleExecuteCode}>
         実行する
       </button>
-      {showResult && <ReturnResult fileAndCode={fileAndCode} />}      
+      {showResult && <ReturnResult answerOfUser={answerOfUser} />}      
     </div>
   );
 };

@@ -25,6 +25,8 @@ button {
     line-height: 44px;
     outline: 0;
     margin-left: 5%;
+    margin-top: 15px;
+    margin-bottom: 15px;
     padding: 0px 20px;
 }
 
