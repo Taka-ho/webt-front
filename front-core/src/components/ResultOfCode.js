@@ -2,7 +2,7 @@ import React, { useState, useEffect, memo } from 'react';
 import '../ResultOfCode.css';
 
 const ReturnResult = memo(({ answerOfUser }) => {
-
+  const [result, setResult] = useState('');
   useEffect(() => {
     if (!answerOfUser || Object.keys(answerOfUser).length === 0) {
       console.log('空です');
@@ -31,7 +31,7 @@ const ReturnResult = memo(({ answerOfUser }) => {
             const data = await response.json(); // レスポンスのボディをJSONとしてパース
             console.log(data); // レスポンスデータを表示
           } else {
-            console.log("Request failed with status:", response.status);
+            console.log("data:", response.json());
           }
         } catch (error) {
           console.error("Error:", error);
@@ -42,7 +42,7 @@ const ReturnResult = memo(({ answerOfUser }) => {
         const regex = /[\r\n]{3,}/g; // 2行以上の連続した改行コードの正規表現
         return fileContent.map(content => content.replace(regex, "\n\n"));
       }
-      
+
       postAPI();
     }
   }, [answerOfUser]);

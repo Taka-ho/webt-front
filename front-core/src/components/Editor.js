@@ -25,7 +25,8 @@ const Editor = () => {
       await Promise.all(
         Object.entries(zip.files).map(async ([relativePath, zipEntry]) => {
           if (!zipEntry.dir) {
-            const fileName = relativePath;
+            const relativePathName = relativePath;
+            const fileName = relativePathName.replace('exam/', '');
             const content = await zipEntry.async('text');
             names.push(fileName);
             contents.push({ fileName, content });
