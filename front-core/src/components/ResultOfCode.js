@@ -1,20 +1,25 @@
-import React, { useState, useEffect, memo } from 'react';
+import React, { useEffect, memo, useState } from 'react';
 import '../ResultOfCode.css';
+import DisplayResult from './DisplayOfResult';
 
-const ReturnResult = memo(({ answerOfUser }) => {
-  const [result, setResult] = useState('');
+const ResultOfCode = memo(({ answerOfUser }) => {
+  const [resultData, setResultData] = useState(null);
+
   useEffect(() => {
     if (!answerOfUser || Object.keys(answerOfUser).length === 0) {
-      console.log('空です');
+      return;
     } else {
       const fileName = answerOfUser.fileName;
       let fileContent = answerOfUser.content;
       // 余分な2行以上の空行を削除
-      fileContent = removeExtraEmptyLines(fileContent);
+      const removeExtraLines = async () => {
+        new Promise((resolve) => {
+          removeExtraEmptyLines(fileContent);
+          resolve();
+        });
+      }
 
       // ここで fileName の値を利用できます
-      console.log(fileName);
-      console.log(fileContent);
 
       const postAPI = async () => {
         try {
@@ -25,33 +30,40 @@ const ReturnResult = memo(({ answerOfUser }) => {
             },
             body: JSON.stringify(answerOfUser)
           });
-
+      
           // レスポンスのステータスコードを確認
           if (response.ok) {
-            const data = await response.json(); // レスポンスのボディをJSONとしてパース
-            console.log(data); // レスポンスデータを表示
+            const data = await response.json();
+            setResultData(data);
           } else {
-            console.log("data:", response.json());
+            console.log("data:", await response.json());
           }
         } catch (error) {
           console.error("Error:", error);
         }
       };
 
-      function removeExtraEmptyLines(fileContent) {
-        const regex = /[\r\n]{3,}/g; // 2行以上の連続した改行コードの正規表現
-        return fileContent.map(content => content.replace(regex, "\n\n"));
+      const removeExtraEmptyLines = async (fileContent) => {
+        const regex = /[\r\n]{3,}/g;
+        for(let i = 0; i < fileContent.length; i++) {
+          fileContent[i] = fileContent[i].replaceAll(regex, '');
+        }
       }
 
-      postAPI();
+      const processUserAnswer = async () => {
+        await removeExtraLines();
+        await postAPI();
+      };
+
+      processUserAnswer();
     }
-  }, [answerOfUser]);
+  }, [answerOfUser, resultData]);
 
   return (
     <div>
-      {/* レンダリング内容 */}
+      {resultData && <DisplayResult arrayOfResults={resultData} />}
     </div>
   );
 });
 
-export default ReturnResult;
+export default ResultOfCode;

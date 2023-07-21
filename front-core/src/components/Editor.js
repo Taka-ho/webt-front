@@ -1,17 +1,17 @@
-import React, {useCallback, useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
 import JSZip from 'jszip';
 import MonacoEditor from 'react-monaco-editor';
 import '../Tab.css';
 import '../Exam.css';
 import '../Editor.css';
-import ReturnResult from './ResultOfCode';
+import ResultOfCode from './ResultOfCode';
 
 const Editor = () => {
   const [fileNames, setFileNames] = useState([]);
   const [fileContents, setFileContents] = useState([]);
   const [selectedFileName, setSelectedFileName] = useState('');
-  const [answerOfUser, relationFileAndCode] = useState([]);
+  const [answerOfUser, setAnswerOfUser] = useState([]);
   const [showResult, setShowResult] = useState(false);
 
   useEffect(() => {
@@ -25,8 +25,8 @@ const Editor = () => {
       await Promise.all(
         Object.entries(zip.files).map(async ([relativePath, zipEntry]) => {
           if (!zipEntry.dir) {
-            const relativePathName = relativePath;
-            const fileName = relativePathName.replace('exam/', '');
+            const nameWithRelativePath = relativePath;
+            const fileName = nameWithRelativePath.replace('exam/', '');
             const content = await zipEntry.async('text');
             names.push(fileName);
             contents.push({ fileName, content });
@@ -45,24 +45,18 @@ const Editor = () => {
     const updatedContents = fileContents.map((item, i) =>
       i === index ? { ...item, content: newValue } : item
     );
-  
-    const fileNamesInArray = updatedContents.map((item) => item.fileName);
-    const valueInArray = updatedContents.map((item) => item.content);
+
     setFileContents(updatedContents);
-  
-    relationFileAndCode({
-      ...answerOfUser,
-      fileName: fileNamesInArray,
-      content: valueInArray
-    });
   };
 
   const handleExecuteCode = useCallback(() => {
     setShowResult(true);
-    setTimeout(() => {
-      setShowResult(false);
-    }, 1);
-  }, []);
+    setAnswerOfUser({
+      fileName: fileContents.map((item) => item.fileName),
+      content: fileContents.map((item) => item.content),
+    });
+    
+  }, [fileContents]);
 
   const handleTabSelect = (selectedIndex) => {
     const fileName = fileNames[selectedIndex];
@@ -90,10 +84,10 @@ const Editor = () => {
           </TabPanel>
         ))}
       </Tabs>
-      <button className="button" type='submit' onClick={handleExecuteCode}>
+      <button className="button" type="submit" onClick={handleExecuteCode}>
         実行する
       </button>
-      {showResult && <ReturnResult answerOfUser={answerOfUser} />}      
+      {showResult && <ResultOfCode answerOfUser={answerOfUser} />}
     </div>
   );
 };
