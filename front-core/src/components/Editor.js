@@ -12,8 +12,8 @@ const Editor = () => {
   const [fileContents, setFileContents] = useState([]);
   const [selectedFileName, setSelectedFileName] = useState('');
   const [answerOfUser, setAnswerOfUser] = useState([]);
-  const [showResult, setShowResult] = useState(false);
-
+  const [executionCompleted, setExecutionCompleted] = useState(false);
+  const [clickCount, setClickCount] = useState(1);
   useEffect(() => {
     const fetchData = async () => {
       const response = await fetch('http://localhost:8000/api/exam/workBook');
@@ -41,6 +41,12 @@ const Editor = () => {
     fetchData();
   }, []);
 
+  useEffect(() => {
+    if (executionCompleted) {
+      setExecutionCompleted(true);
+    }
+  }, [executionCompleted]);
+
   const handleOnChange = (newValue, index) => {
     const updatedContents = fileContents.map((item, i) =>
       i === index ? { ...item, content: newValue } : item
@@ -50,12 +56,12 @@ const Editor = () => {
   };
 
   const handleExecuteCode = useCallback(() => {
-    setShowResult(true);
-    setAnswerOfUser({
+    const answer = {
       fileName: fileContents.map((item) => item.fileName),
       content: fileContents.map((item) => item.content),
-    });
-    
+    };
+    setClickCount(clickCount + 1)
+    setAnswerOfUser(answer);
   }, [fileContents]);
 
   const handleTabSelect = (selectedIndex) => {
@@ -87,7 +93,7 @@ const Editor = () => {
       <button className="button" type="submit" onClick={handleExecuteCode}>
         実行する
       </button>
-      {showResult && <ResultOfCode answerOfUser={answerOfUser} />}
+      {<ResultOfCode answerOfUser={answerOfUser} clickCountOfButton={clickCount} />}
     </div>
   );
 };

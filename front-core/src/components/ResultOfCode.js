@@ -1,9 +1,12 @@
-import React, { useEffect, memo, useState } from 'react';
+import React, { useEffect, memo, useState, useRef } from 'react';
 import '../ResultOfCode.css';
-import DisplayResult from './DisplayOfResult';
 
-const ResultOfCode = memo(({ answerOfUser }) => {
+const ResultOfCode = memo(({ answerOfUser, clickCountOfButton }) => {
   const [resultData, setResultData] = useState(null);
+  const [count, setCount] = useState(1);
+  const [countButtonClick, setCountButtonClick] = useState(1);
+  // リクエストが既に行われたかを示すフラグ
+  const requestSentRef = useRef(false);
 
   useEffect(() => {
     if (!answerOfUser || Object.keys(answerOfUser).length === 0) {
@@ -11,15 +14,13 @@ const ResultOfCode = memo(({ answerOfUser }) => {
     } else {
       const fileName = answerOfUser.fileName;
       let fileContent = answerOfUser.content;
-      // 余分な2行以上の空行を削除
+
       const removeExtraLines = async () => {
         new Promise((resolve) => {
           removeExtraEmptyLines(fileContent);
           resolve();
         });
       }
-
-      // ここで fileName の値を利用できます
 
       const postAPI = async () => {
         try {
@@ -34,10 +35,14 @@ const ResultOfCode = memo(({ answerOfUser }) => {
           // レスポンスのステータスコードを確認
           if (response.ok) {
             const data = await response.json();
+            console.log(data);
             setResultData(data);
           } else {
             console.log("data:", await response.json());
           }
+          
+          // リクエストが既に行われたことを示すフラグをtrueに設定
+          requestSentRef.current = true;
         } catch (error) {
           console.error("Error:", error);
         }
@@ -52,16 +57,24 @@ const ResultOfCode = memo(({ answerOfUser }) => {
 
       const processUserAnswer = async () => {
         await removeExtraLines();
-        await postAPI();
+        // リクエストがまだ行われていない場合のみAPIリクエストを行う
+        if (!requestSentRef.current && count === countButtonClick) {
+          await postAPI();
+          // リクエスト完了後にカウントを増やす
+        }
       };
-
+      setCount(count + 1);
+      setCountButtonClick(countButtonClick + 1);
+      requestSentRef.current = false;
+      console.log('countButtonClick:', countButtonClick);
+      console.log('count:', count);
       processUserAnswer();
     }
-  }, [answerOfUser, resultData]);
+  }, [answerOfUser, clickCountOfButton]); // clickCountOfButtonを依存配列に追加
 
   return (
     <div>
-      {resultData && <DisplayResult arrayOfResults={resultData} />}
+      {resultData}
     </div>
   );
 });
