@@ -32,3 +32,19 @@ button {
 button:hover {
     background: #00bd68;
 }
+
+#showResult {
+    margin-right: 5%;
+    margin-left: 5%;
+}
+
+.terminal-result-window {
+    list-style: none;
+    padding-left: 0;
+}
+
+.terminal-title {
+    list-style: none;
+    padding: 6px 12px;
+    border-bottom: 1px solid #aaa;
+}

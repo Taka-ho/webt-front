@@ -1,6 +1,6 @@
 import React, { useEffect, memo, useState, useRef } from 'react';
 import '../ResultOfCode.css';
-import '../DisplayOfResult.css';
+import JSZip from 'jszip';
 const ResultOfCode = memo(({ answerOfUser, clickCountOfButton }) => {
   const [returnData, setReturnData] = useState(['', '']);
   const [zipFileData, setZipFileData] = useState('');
@@ -38,11 +38,10 @@ const ResultOfCode = memo(({ answerOfUser, clickCountOfButton }) => {
             const data = await response.json();
             setReturnData(data[0]);
             setZipFileData(data[1]);
-            console.log(data[0]);
           } else {
             console.log("data:", await response.json());
           }
-          
+ 
           // リクエストが既に行われたことを示すフラグをtrueに設定
           requestSentRef.current = true;
         } catch (error) {
@@ -62,7 +61,6 @@ const ResultOfCode = memo(({ answerOfUser, clickCountOfButton }) => {
         // リクエストがまだ行われていない場合のみAPIリクエストを行う
         if (!requestSentRef.current && count === countButtonClick) {
           await postAPI();
-          // リクエスト完了後にカウントを増やす
         }
       };
       setCount(count + 1);
@@ -70,15 +68,23 @@ const ResultOfCode = memo(({ answerOfUser, clickCountOfButton }) => {
       requestSentRef.current = false;
       processUserAnswer();
     }
+    
   }, [answerOfUser, clickCountOfButton]); // clickCountOfButtonを依存配列に追加
 
   return (
-    <div id='showResult'>
-    <ul className='terminal-result-window'>
-      <li className='terminal-title'>実行結果</li>
-    </ul>
-      {returnData[0]}< br/>
-      {returnData[1]}
+    <div id='showResult' style={{ whiteSpace: 'pre-wrap' }}>
+      <ul className='terminal-result-window'>
+        <li className='terminal-title'>実行結果</li>
+      </ul>
+      <div>
+        {returnData.map((line, index) => (
+          <React.Fragment key={index}>
+            <br />
+            {line}
+            <br />
+          </React.Fragment>
+        ))}
+      </div>
     </div>
   );
 });
