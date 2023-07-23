@@ -1,8 +1,8 @@
 import React, { useEffect, memo, useState, useRef } from 'react';
 import '../ResultOfCode.css';
-
+import '../DisplayOfResult.css';
 const ResultOfCode = memo(({ answerOfUser, clickCountOfButton }) => {
-  const [returnData, setReturnData] = useState();
+  const [returnData, setReturnData] = useState(['', '']);
   const [zipFileData, setZipFileData] = useState('');
   const [count, setCount] = useState(1);
   const [countButtonClick, setCountButtonClick] = useState(1);
@@ -36,9 +36,9 @@ const ResultOfCode = memo(({ answerOfUser, clickCountOfButton }) => {
           // レスポンスのステータスコードを確認
           if (response.ok) {
             const data = await response.json();
-            setReturnData(JSON.stringify(data[0]));
+            setReturnData(data[0]);
             setZipFileData(data[1]);
-            console.log(data);
+            console.log(data[0]);
           } else {
             console.log("data:", await response.json());
           }
@@ -74,7 +74,11 @@ const ResultOfCode = memo(({ answerOfUser, clickCountOfButton }) => {
 
   return (
     <div id='showResult'>
-      {returnData}
+    <ul className='terminal-result-window'>
+      <li className='terminal-title'>実行結果</li>
+    </ul>
+      {returnData[0]}< br/>
+      {returnData[1]}
     </div>
   );
 });

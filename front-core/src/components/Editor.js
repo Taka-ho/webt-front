@@ -95,7 +95,7 @@ const Editor = () => {
         実行する
       </button>
       </div>
-      <div style={{ flex: 1, marginLeft: '5%' }}>
+      <div style={{ flex: 1 }}>
         <ResultOfCode answerOfUser={answerOfUser} clickCountOfButton={clickCount} />
       </div>
     </div>
