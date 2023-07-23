@@ -2,7 +2,8 @@ import React, { useEffect, memo, useState, useRef } from 'react';
 import '../ResultOfCode.css';
 
 const ResultOfCode = memo(({ answerOfUser, clickCountOfButton }) => {
-  const [resultData, setResultData] = useState(null);
+  const [returnData, setReturnData] = useState();
+  const [zipFileData, setZipFileData] = useState('');
   const [count, setCount] = useState(1);
   const [countButtonClick, setCountButtonClick] = useState(1);
   // リクエストが既に行われたかを示すフラグ
@@ -35,8 +36,9 @@ const ResultOfCode = memo(({ answerOfUser, clickCountOfButton }) => {
           // レスポンスのステータスコードを確認
           if (response.ok) {
             const data = await response.json();
+            setReturnData(JSON.stringify(data[0]));
+            setZipFileData(data[1]);
             console.log(data);
-            setResultData(data);
           } else {
             console.log("data:", await response.json());
           }
@@ -66,15 +68,13 @@ const ResultOfCode = memo(({ answerOfUser, clickCountOfButton }) => {
       setCount(count + 1);
       setCountButtonClick(countButtonClick + 1);
       requestSentRef.current = false;
-      console.log('countButtonClick:', countButtonClick);
-      console.log('count:', count);
       processUserAnswer();
     }
   }, [answerOfUser, clickCountOfButton]); // clickCountOfButtonを依存配列に追加
 
   return (
-    <div>
-      {resultData}
+    <div id='showResult'>
+      {returnData}
     </div>
   );
 });

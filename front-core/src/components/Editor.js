@@ -70,7 +70,8 @@ const Editor = () => {
   };
 
   return (
-    <div>
+    <div style={{ display: 'flex' }}>
+    <div style={{ flex: 1 }}>
       <Tabs onSelect={handleTabSelect}>
         <TabList>
           {fileNames.map((fileName, index) => (
@@ -93,7 +94,10 @@ const Editor = () => {
       <button className="button" type="submit" onClick={handleExecuteCode}>
         実行する
       </button>
-      {<ResultOfCode answerOfUser={answerOfUser} clickCountOfButton={clickCount} />}
+      </div>
+      <div style={{ flex: 1, marginLeft: '5%' }}>
+        <ResultOfCode answerOfUser={answerOfUser} clickCountOfButton={clickCount} />
+      </div>
     </div>
   );
 };
