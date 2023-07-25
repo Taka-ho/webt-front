@@ -36,6 +36,7 @@ const ResultOfCode = memo(({ answerOfUser, clickCountOfButton }) => {
           // レスポンスのステータスコードを確認
           if (response.ok) {
             const data = await response.json();
+            console.log(data);
             setReturnData(data[0]);
             setZipFileData(data[1]);
           } else {

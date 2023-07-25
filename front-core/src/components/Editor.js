@@ -54,7 +54,6 @@ const Editor = () => {
 
     setFileContents(updatedContents);
   };
-
   const handleExecuteCode = useCallback(() => {
     const answer = {
       fileName: fileContents.map((item) => item.fileName),
