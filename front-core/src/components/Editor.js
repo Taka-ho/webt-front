@@ -33,11 +33,9 @@ const Editor = () => {
           }
         })
       );
-
       setFileNames(names);
       setFileContents(contents);
     };
-
     fetchData();
   }, []);
 
@@ -63,6 +61,16 @@ const Editor = () => {
     setAnswerOfUser(answer);
   }, [fileContents]);
 
+  const updateState = (filesAndContents) => {
+    const files = [];
+    const contents = []
+    for(let i = 0; i < filesAndContents.length; i++) {
+      files.push(filesAndContents[i].files);
+      contents.push(filesAndContents[i].contents);
+    }
+    setFileNames(files);
+    setFileContents(contents);
+  };
   const handleTabSelect = (selectedIndex) => {
     const fileName = fileNames[selectedIndex];
     setSelectedFileName(fileName);
@@ -95,7 +103,7 @@ const Editor = () => {
       </button>
       </div>
       <div style={{ flex: 1 }}>
-        <ResultOfCode answerOfUser={answerOfUser} clickCountOfButton={clickCount} />
+        <ResultOfCode answerOfUser={answerOfUser} clickCountOfButton={clickCount} updateState={updateState}/>
       </div>
     </div>
   );
