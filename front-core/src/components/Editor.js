@@ -52,25 +52,28 @@ const Editor = () => {
 
     setFileContents(updatedContents);
   };
+
   const handleExecuteCode = useCallback(() => {
+    // 実行ボタンを押す前にMonaco Editorの内容を保存
     const answer = {
       fileName: fileContents.map((item) => item.fileName),
       content: fileContents.map((item) => item.content),
     };
-    setClickCount(clickCount + 1)
     setAnswerOfUser(answer);
+    setClickCount(clickCount + 1);
   }, [fileContents]);
 
   const updateState = (filesAndContents) => {
-    const files = [];
-    const contents = []
-    for(let i = 0; i < filesAndContents.length; i++) {
-      files.push(filesAndContents[i].files);
-      contents.push(filesAndContents[i].contents);
-    }
-    setFileNames(files);
+    const names = filesAndContents.map((item) => item.files);
+    const contents = filesAndContents.map((item) => ({ content: item.contents }));
+    setFileNames(names);
     setFileContents(contents);
   };
+  useEffect(() => {
+    console.log(fileNames);
+    console.log(fileContents);
+  }, [fileNames, fileContents])
+
   const handleTabSelect = (selectedIndex) => {
     const fileName = fileNames[selectedIndex];
     setSelectedFileName(fileName);

@@ -9,14 +9,7 @@ const ResultOfCode = memo(({ answerOfUser, clickCountOfButton, updateState }) =>
     if (!answerOfUser || Object.keys(answerOfUser).length === 0) {
       return;
     } else {
-      let fileContent = answerOfUser.content;
 
-      const removeExtraLines = async () => {
-        new Promise((resolve) => {
-          removeExtraEmptyLines(fileContent);
-          resolve();
-        });
-      };
 
       const postAPI = async () => {
         try {
@@ -41,15 +34,7 @@ const ResultOfCode = memo(({ answerOfUser, clickCountOfButton, updateState }) =>
         }
       };
 
-      const removeExtraEmptyLines = async (fileContent) => {
-        const regex = /[\r\n]{3,}/g;
-        for (let i = 0; i < fileContent.length; i++) {
-          fileContent[i] = fileContent[i].replaceAll(regex, '');
-        }
-      };
-
       const processUserAnswer = async () => {
-        await removeExtraLines();
         await postAPI();
       };
       processUserAnswer();
