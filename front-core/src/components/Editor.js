@@ -38,7 +38,7 @@ const Editor = () => {
       setFileContents(contents);
     };
     fetchData();
-  }, []);
+ }, []);
 
   useEffect(() => {
     if (executionCompleted) {
