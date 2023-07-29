@@ -13,7 +13,8 @@ const Editor = () => {
   const [selectedFileName, setSelectedFileName] = useState('');
   const [answerOfUser, setAnswerOfUser] = useState([]);
   const [executionCompleted, setExecutionCompleted] = useState(false);
-  const [clickCount, setClickCount] = useState(1);
+  const [clickCount, setClickCount] = useState(0);
+
   useEffect(() => {
     const fetchData = async () => {
       const response = await fetch('http://localhost:8000/api/exam/workBook');
@@ -53,26 +54,24 @@ const Editor = () => {
     setFileContents(updatedContents);
   };
 
-  const handleExecuteCode = useCallback(() => {
-    // 実行ボタンを押す前にMonaco Editorの内容を保存
-    const answer = {
-      fileName: fileContents.map((item) => item.fileName),
-      content: fileContents.map((item) => item.content),
-    };
-    setAnswerOfUser(answer);
-    setClickCount(clickCount + 1);
-  }, [fileContents]);
-
   const updateState = (filesAndContents) => {
     const names = filesAndContents.map((item) => item.files);
     const contents = filesAndContents.map((item) => ({ content: item.contents }));
+
     setFileNames(names);
     setFileContents(contents);
   };
-  useEffect(() => {
-    console.log(fileNames);
-    console.log(fileContents);
-  }, [fileNames, fileContents])
+
+  const handleExecuteCode = useCallback(() => {
+    // 実行ボタンを押す前にMonaco Editorの内容を保存
+    const answer = {
+      files: fileNames.map((item) => item),
+      content: fileContents.map((item) => item.content),
+    };
+    console.log(answer.files);
+    setAnswerOfUser(answer);
+    setClickCount(clickCount + 1);
+  }, [fileContents]);
 
   const handleTabSelect = (selectedIndex) => {
     const fileName = fileNames[selectedIndex];

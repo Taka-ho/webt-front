@@ -3,14 +3,12 @@ import React, { useEffect, memo, useState } from 'react';
 import '../ResultOfCode.css';
 
 const ResultOfCode = memo(({ answerOfUser, clickCountOfButton, updateState }) => {
-  const [returnData, setReturnData] = useState(['', '']);
+  const [returnData, setReturnData] = useState([]);
 
   useEffect(() => {
     if (!answerOfUser || Object.keys(answerOfUser).length === 0) {
       return;
     } else {
-
-
       const postAPI = async () => {
         try {
           const response = await fetch('http://localhost:3030/api/ReturnResult', {
