@@ -1,4 +1,5 @@
 import React, { useCallback, useEffect, useState } from 'react';
+import { useParams } from 'react-router-dom';
 import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
 import JSZip from 'jszip';
 import MonacoEditor from 'react-monaco-editor';
@@ -8,13 +9,13 @@ import '../Editor.css';
 import ResultOfCode from './ResultOfCode';
 
 const Editor = () => {
+  const { id } = useParams();
   const [fileNames, setFileNames] = useState([]);
   const [fileContents, setFileContents] = useState([]);
   const [selectedFileName, setSelectedFileName] = useState('');
   const [answerOfUser, setAnswerOfUser] = useState([]);
   const [executionCompleted, setExecutionCompleted] = useState(false);
   const [clickCount, setClickCount] = useState(0);
-
   useEffect(() => {
     const fetchData = async () => {
       const response = await fetch('http://localhost:8000/api/exam/workBook');
@@ -68,7 +69,6 @@ const Editor = () => {
       files: fileNames.map((item) => item),
       content: fileContents.map((item) => item.content),
     };
-    console.log(answer.files);
     setAnswerOfUser(answer);
     setClickCount(clickCount + 1);
   }, [fileContents]);
@@ -81,6 +81,9 @@ const Editor = () => {
   return (
     <div style={{ display: 'flex' }}>
     <div style={{ flex: 1 }}>
+    <button className="execute" type="submit" onClick={handleExecuteCode}>
+        実行する
+      </button>    
       <Tabs onSelect={handleTabSelect}>
         <TabList>
           {fileNames.map((fileName, index) => (
@@ -100,9 +103,7 @@ const Editor = () => {
           </TabPanel>
         ))}
       </Tabs>
-      <button className="button" type="submit" onClick={handleExecuteCode}>
-        実行する
-      </button>
+
       </div>
       <div style={{ flex: 1 }}>
         <ResultOfCode answerOfUser={answerOfUser} clickCountOfButton={clickCount} updateState={updateState}/>

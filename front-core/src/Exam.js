@@ -1,26 +1,23 @@
+import React, { useEffect, useState } from 'react';
 import { useParams, BrowserRouter, Route, Routes } from 'react-router-dom';
 import Editor from './components/Editor';
 import Not_Found from './components/NotFound';
-import { useState, useEffect } from 'react';
 
-function Exam() {
+const Exam = () => {
   const { id } = useParams();
   const [isValid, setIsValid] = useState(null);
-
-  const CheckValidity = async () => {
-    const url = `http://localhost:8000/api/confirmation/${id}`;
-    const response = await fetch(url);
-    const data = await response.json();
-    setIsValid(data[0]);
-  };
-
+  const [params, setParams] = useState('');
   useEffect(() => {
     const fetchData = async () => {
-      await CheckValidity();
+      const url = `http://localhost:8000/api/confirmation/${id}`;
+      const response = await fetch(url);
+      const data = await response.json();
+      setParams(id);
+      setIsValid(data[0]);
     };
 
     fetchData();
-  }, []);
+  }, [id]); // ここでidを監視するように指定
 
   if (isValid === null) {
     return null;
@@ -28,7 +25,7 @@ function Exam() {
     return (
       <BrowserRouter>
         <Routes>
-          <Route path='/:id' element={<EditorComponent />} />
+          <Route path="/exam/:id" element={<EditorComponent />} />
         </Routes>
       </BrowserRouter>
     );
@@ -38,7 +35,7 @@ function Exam() {
     return (
       <BrowserRouter>
         <Routes>
-          <Route path="/:id" element={<Not_Found />} />
+          <Route path="/exam/:id" element={<Not_Found />} />
         </Routes>
       </BrowserRouter>
     );

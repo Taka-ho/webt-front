@@ -42,6 +42,7 @@ const ResultOfCode = memo(({ answerOfUser, clickCountOfButton, updateState }) =>
   return (
     <div id="showResult" style={{ whiteSpace: 'pre-wrap' }}>
       <ul className="terminal-result-window">
+      <button className='returnResult' type='submit'>ソースコードを提出する</button>
         <li className="terminal-title">実行結果</li>
       </ul>
       <div>
