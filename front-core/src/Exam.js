@@ -15,20 +15,13 @@ const Exam = () => {
       setParams(id);
       setIsValid(data[0]);
     };
-
     fetchData();
-  }, [id]); // ここでidを監視するように指定
+  }, [id]);
 
   if (isValid === null) {
     return null;
   } else if (isValid === true) {
-    return (
-      <BrowserRouter>
-        <Routes>
-          <Route path="/exam/:id" element={<EditorComponent />} />
-        </Routes>
-      </BrowserRouter>
-    );
+    return <Editor />;
   } else if (isValid === false) {
     return <Not_Found />;
   } else {
@@ -39,10 +32,6 @@ const Exam = () => {
         </Routes>
       </BrowserRouter>
     );
-  }
-
-  function EditorComponent() {
-    return <Editor />;
   }
 }
 

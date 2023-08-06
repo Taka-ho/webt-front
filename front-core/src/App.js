@@ -1,6 +1,7 @@
 import React from 'react';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import Exam from './Exam'; // Examコンポーネントのファイルパスを適切に指定する
+import Not_Found from './components/NotFound';
 
 function App() {
   return (
