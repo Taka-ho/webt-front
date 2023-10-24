@@ -26,4 +26,3 @@ VOLUME /app/front-core
 
 # サーバーの起動
 CMD ["npm", "start"]
-

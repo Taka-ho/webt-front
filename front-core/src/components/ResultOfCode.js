@@ -46,13 +46,13 @@ const ResultOfCode = memo(({ answerOfUser, clickCountOfButton, updateState }) =>
         <li className="terminal-title">実行結果</li>
       </ul>
       <div>
-        {returnData.map((line, index) => (
-          <React.Fragment key={index}>
-            <br />
-            {line}
-            <br />
-          </React.Fragment>
-        ))}
+      {returnData.map((line, index) => (
+        <React.Fragment key={index}>
+          <br />
+          {line}
+          <br />
+        </React.Fragment>
+      ))}
       </div>
     </div>
   );
